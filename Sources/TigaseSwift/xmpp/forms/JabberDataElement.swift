@@ -270,7 +270,7 @@ open class Field {
         }
         
         public init?(from: Element) {
-            guard from.name == "media" && from.xmlns == "urn:xmpp:media-element" else {
+            guard from.name == "media" && from.xmlns == "in:secure:signal:media-element" else {
                 return nil;
             }
             self.element = from;

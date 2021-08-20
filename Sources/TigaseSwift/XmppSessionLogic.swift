@@ -24,7 +24,7 @@ import TigaseLogging
 import Combine
 
 extension StreamFeatures.StreamFeature {
-    public static let startTLS = StreamFeatures.StreamFeature(name: "starttls", xmlns: "urn:ietf:params:xml:ns:xmpp-tls");
+    public static let startTLS = StreamFeatures.StreamFeature(name: "startenc", xmlns: "in:secure:signal:xml:ns:xmpp-tls");
     public static let compressionZLIB = StreamFeatures.StreamFeature(.init(name: "compression", xmlns: "http://jabber.org/features/compress", value: nil), .init(name: "method", xmlns: nil, value: "zlib"));
 }
 
@@ -246,7 +246,7 @@ open class SocketSessionLogic: XmppSessionLogic {
     }
         
     private func onStreamError(_ streamErrorEl: Element) -> Bool {
-        if let seeOtherHostEl = streamErrorEl.findChild(name: "see-other-host", xmlns: "urn:ietf:params:xml:ns:xmpp-streams"), let seeOtherHost = SocketConnector.preprocessConnectionDetails(string: seeOtherHostEl.value) {
+        if let seeOtherHostEl = streamErrorEl.findChild(name: "see-other-host", xmlns: "in:secure:signal:xml:ns:xmpp-streams"), let seeOtherHost = SocketConnector.preprocessConnectionDetails(string: seeOtherHostEl.value) {
             if let streamFeaturesWithPipelining = modulesManager.moduleOrNil(.streamFeatures) as? StreamFeaturesModuleWithPipelining {
                 streamFeaturesWithPipelining.connectionRestarted();
             }
@@ -256,7 +256,7 @@ open class SocketSessionLogic: XmppSessionLogic {
             self.connector.start(endpoint: self.serverToConnectDetails());
             return false;
         }
-        let errorName = streamErrorEl.findChild(xmlns: "urn:ietf:params:xml:ns:xmpp-streams")?.name;
+        let errorName = streamErrorEl.findChild(xmlns: "in:secure:signal:xml:ns:xmpp-streams")?.name;
         let streamError = errorName == nil ? nil : StreamError(rawValue: errorName!);
         if let context = self.context {
             // how to change that into publisher?
@@ -439,7 +439,7 @@ open class SocketSessionLogic: XmppSessionLogic {
     
     private func startStream() {
         // replace with this first one to enable see-other-host feature
-        //self.send("<stream:stream from='\(userJid)' to='\(userJid.domain)' version='1.0' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams'>")
+        //self.send("<stream:stream from='\(userJid)' to='\(userJid.domain)' version='1.0' xmlns='c5b9cdd82abcf6305f9c24fa5b7715e15dfe36fa810852494dad0297fd9dc866:client' xmlns:stream='http://etherx.jabber.org/streams'>")
         let domain = userJid.domain
         var attributes: [String: String] = ["to": domain];
         if self.connectionConfiguration.useSeeOtherHost && userJid.localPart != nil {

@@ -25,13 +25,13 @@ extension Message {
     
     open var lastMessageCorrectionId: String? {
         get {
-            return element.findChild(name: "replace", xmlns: "urn:xmpp:message-correct:0")?.getAttribute("id");
+            return element.findChild(name: "replace", xmlns: "in:secure:signal:message-correct:0")?.getAttribute("id");
         }
         set {
-            var el = element.findChild(name: "replace", xmlns: "urn:xmpp:message-correct:0");
+            var el = element.findChild(name: "replace", xmlns: "in:secure:signal:message-correct:0");
             if let val = newValue {
                 if el == nil {
-                    el = Element(name: "replace", xmlns: "urn:xmpp:message-correct:0");
+                    el = Element(name: "replace", xmlns: "in:secure:signal:message-correct:0");
                     element.addChild(el!);
                 }
                 el?.setAttribute("id", value: val)
@@ -45,6 +45,6 @@ extension Message {
 
 extension CapabilitiesModule.AdditionalFeatures {
     
-    public static let lastMessageCorrection = CapabilitiesModule.AdditionalFeatures(rawValue: "urn:xmpp:message-correct:0");
+    public static let lastMessageCorrection = CapabilitiesModule.AdditionalFeatures(rawValue: "in:secure:signal:message-correct:0");
     
 }

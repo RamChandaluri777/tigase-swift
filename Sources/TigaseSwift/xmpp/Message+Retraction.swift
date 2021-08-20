@@ -25,20 +25,20 @@ extension Message {
     
     open var messageRetractionId: String? {
         get {
-            guard let el = self.element.findChild(name: "apply-to", xmlns: "urn:xmpp:fasten:0"), let id = el.getAttribute("id") else {
+            guard let el = self.element.findChild(name: "apply-to", xmlns: "in:secure:signal:fasten:0"), let id = el.getAttribute("id") else {
                 return nil;
             }
-            guard el.findChild(name: "retract", xmlns: "urn:xmpp:message-retract:0") != nil else {
+            guard el.findChild(name: "retract", xmlns: "in:secure:signal:message-retract:0") != nil else {
                 return nil;
             }
             return id;
         }
         set {
-            self.element.removeChildren(name: "apply-to", xmlns: "urn:xmpp:fasten:0");
+            self.element.removeChildren(name: "apply-to", xmlns: "in:secure:signal:fasten:0");
             if let val = newValue {
-                let applyTo = Element(name: "apply-to", xmlns: "urn:xmpp:fasten:0");
+                let applyTo = Element(name: "apply-to", xmlns: "in:secure:signal:fasten:0");
                 applyTo.setAttribute("id", value: val);
-                applyTo.addChild(Element(name: "retract", xmlns: "urn:xmpp:message-retract:0"));
+                applyTo.addChild(Element(name: "retract", xmlns: "in:secure:signal:message-retract:0"));
                 self.element.addChild(applyTo);
             }
         }
@@ -48,7 +48,7 @@ extension Message {
 
 extension CapabilitiesModule.AdditionalFeatures {
     
-    public static let messageRetraction = CapabilitiesModule.AdditionalFeatures(rawValue: "urn:xmpp:message-retract:0");
+    public static let messageRetraction = CapabilitiesModule.AdditionalFeatures(rawValue: "in:secure:signal:message-retract:0");
     
 }
 
@@ -57,7 +57,7 @@ extension ConversationProtocol {
     public func createMessageRetraction(forMessageWithId msgId: String, fallbackBody body: String? = nil) -> Message {
         let message = createMessage();
         message.messageRetractionId = msgId;
-        message.addChildren([Element(name: "fallback", xmlns: "urn:xmpp:fallback:0"), Element(name: "body", cdata: body ?? "This person attempted to retract a previous message, but it's unsupported by your client.")]);
+        message.addChildren([Element(name: "fallback", xmlns: "in:secure:signal:fallback:0"), Element(name: "body", cdata: body ?? "This person attempted to retract a previous message, but it's unsupported by your client.")]);
         message.hints = [.store];
         return message;
     }

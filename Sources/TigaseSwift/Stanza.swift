@@ -40,7 +40,7 @@ open class Stanza: ElementProtocol, CustomStringConvertible {
     
     /// Returns information about delay in delivery of stanza
     open var delay:Delay? {
-        if let delayEl = element.findChild(name: "delay", xmlns: "urn:xmpp:delay") {
+        if let delayEl = element.findChild(name: "delay", xmlns: "in:secure:signal:delay") {
             return Delay(element: delayEl);
         }
         return nil;
@@ -129,7 +129,7 @@ open class Stanza: ElementProtocol, CustomStringConvertible {
             if type != StanzaType.error {
                 return nil;
             }
-            if let name = element.findChild(name: "error")?.findChild(xmlns:"urn:ietf:params:xml:ns:xmpp-stanzas")?.name {
+            if let name = element.findChild(name: "error")?.findChild(xmlns:"in:secure:signal:xml:ns:xmpp-stanzas")?.name {
                 return ErrorCondition(rawValue: name);
             }
             return nil;
@@ -250,7 +250,7 @@ open class Stanza: ElementProtocol, CustomStringConvertible {
         return errorResult(errorType: condition.type, errorCondition: condition.rawValue);
     }
     
-    open func errorResult(errorType:String?, errorCondition:String, errorText:String? = nil, xmlns:String = "urn:ietf:params:xml:ns:xmpp-stanzas") -> Stanza {
+    open func errorResult(errorType:String?, errorCondition:String, errorText:String? = nil, xmlns:String = "in:secure:signal:xml:ns:xmpp-stanzas") -> Stanza {
         let elem = Element(element: element);
         let response = Stanza.from(element: elem);
         response.type = StanzaType.error;
@@ -353,7 +353,7 @@ open class Message: Stanza {
         }
         set {
             element.removeChildren(where: { (el) -> Bool in
-                return el.xmlns == "urn:xmpp:hints";
+                return el.xmlns == "in:secure:signal:hints";
             });
             element.addChildren(newValue.map({ $0.element() }));
         }
@@ -391,11 +391,11 @@ open class Message: Stanza {
         }
         
         public func element() -> Element {
-            return Element(name: elemName, xmlns: "urn:xmpp:hints");
+            return Element(name: elemName, xmlns: "in:secure:signal:hints");
         }
         
         public static func from(element el: Element) -> ProcessingHint? {
-            guard el.xmlns == "urn:xmpp:hints" else {
+            guard el.xmlns == "in:secure:signal:hints" else {
                 return nil;
             }
             switch el.name {

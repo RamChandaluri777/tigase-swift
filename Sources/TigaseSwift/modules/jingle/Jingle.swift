@@ -186,7 +186,7 @@ extension Jingle {
     public class Transport {
         
         public class ICEUDPTransport: JingleTransport {
-            public static let XMLNS = "urn:xmpp:jingle:transports:ice-udp:1";
+            public static let XMLNS = "in:secure:signal:jingle:transports:ice-udp:1";
             
             public let xmlns = XMLNS;
             
@@ -206,7 +206,7 @@ extension Jingle {
                     return Candidate(from: child);
                 }, filter: { el -> Bool in
                     return el.name == "candidate";
-                }), fingerprint: Fingerprint(from: el.findChild(name: "fingerprint", xmlns: "urn:xmpp:jingle:apps:dtls:0")));
+                }), fingerprint: Fingerprint(from: el.findChild(name: "fingerprint", xmlns: "in:secure:signal:jingle:apps:dtls:0")));
             }
             
             public init(pwd: String?, ufrag: String?, candidates: [Candidate], fingerprint: Fingerprint? = nil) {
@@ -251,7 +251,7 @@ extension Jingle {
                 }
                 
                 public func toElement() -> Element {
-                    let fingerprintEl = Element(name: "fingerprint", cdata: value, xmlns: "urn:xmpp:jingle:apps:dtls:0");
+                    let fingerprintEl = Element(name: "fingerprint", cdata: value, xmlns: "in:secure:signal:jingle:apps:dtls:0");
                     fingerprintEl.setAttribute("hash", value: hash);
                     fingerprintEl.setAttribute("setup", value: setup.rawValue);
                     return fingerprintEl;
@@ -348,7 +348,7 @@ extension Jingle {
         
         public class RawUDPTransport: JingleTransport {
             
-            public static let XMLNS = "urn:xmpp:jingle:transports:raw-udp:1";
+            public static let XMLNS = "in:secure:signal:jingle:transports:raw-udp:1";
             
             public let xmlns = XMLNS;
             
@@ -443,7 +443,7 @@ extension Jingle {
             public let hdrExts: [HdrExt];
             
             public required convenience init?(from el: Element) {
-                guard el.name == "description" && el.xmlns == "urn:xmpp:jingle:apps:rtp:1" else {
+                guard el.name == "description" && el.xmlns == "in:secure:signal:jingle:apps:rtp:1" else {
                     return nil;
                 }
                 guard let media = el.getAttribute("media") else {
@@ -477,7 +477,7 @@ extension Jingle {
             }
             
             public func toElement() -> Element {
-                let el = Element(name: "description", xmlns: "urn:xmpp:jingle:apps:rtp:1");
+                let el = Element(name: "description", xmlns: "in:secure:signal:jingle:apps:rtp:1");
                 el.setAttribute("media", value: media);
                 el.setAttribute("ssrc", value: ssrc);
                 
@@ -586,7 +586,7 @@ extension Jingle {
                     public let value: String;
                     
                     public convenience init?(from el: Element) {
-                        guard el.name == "parameter" &&  (el.xmlns == "urn:xmpp:jingle:apps:rtp:1" || el.xmlns == nil), let name = el.getAttribute("name"), let value = el.getAttribute("value") else {
+                        guard el.name == "parameter" &&  (el.xmlns == "in:secure:signal:jingle:apps:rtp:1" || el.xmlns == nil), let name = el.getAttribute("name"), let value = el.getAttribute("value") else {
                             return nil;
                         }
                         self.init(name: name, value: value);
@@ -598,7 +598,7 @@ extension Jingle {
                     }
                     
                     public func toElement() -> Element {
-                        return Element(name: "parameter", attributes: ["name": name, "value": value, "xmlns": "urn:xmpp:jingle:apps:rtp:1"]);
+                        return Element(name: "parameter", attributes: ["name": name, "value": value, "xmlns": "in:secure:signal:jingle:apps:rtp:1"]);
                     }
                 }
                 
@@ -608,7 +608,7 @@ extension Jingle {
                     public let subtype: String?;
                     
                     public convenience init?(from el: Element) {
-                        guard el.name == "rtcp-fb" && el.xmlns == "urn:xmpp:jingle:apps:rtp:rtcp-fb:0", let type = el.getAttribute("type") else {
+                        guard el.name == "rtcp-fb" && el.xmlns == "in:secure:signal:jingle:apps:rtp:rtcp-fb:0", let type = el.getAttribute("type") else {
                             return nil;
                         }
                         self.init(type: type, subtype: el.getAttribute("subtype"));
@@ -620,7 +620,7 @@ extension Jingle {
                     }
                     
                     public func toElement() -> Element {
-                        let el = Element(name: "rtcp-fb", xmlns: "urn:xmpp:jingle:apps:rtp:rtcp-fb:0");
+                        let el = Element(name: "rtcp-fb", xmlns: "in:secure:signal:jingle:apps:rtp:rtcp-fb:0");
                         el.setAttribute("type", value: type);
                         el.setAttribute("subtype", value: subtype);
                         return el;
@@ -668,7 +668,7 @@ extension Jingle {
                 public let senders: Senders;
                 
                 public convenience init?(from el: Element) {
-                    guard el.name == "rtp-hdrext" && el.xmlns == "urn:xmpp:jingle:apps:rtp:rtp-hdrext:0", let id = el.getAttribute("id"), let uri = el.getAttribute("uri") else {
+                    guard el.name == "rtp-hdrext" && el.xmlns == "in:secure:signal:jingle:apps:rtp:rtp-hdrext:0", let id = el.getAttribute("id"), let uri = el.getAttribute("uri") else {
                         return nil;
                     }
                     let senders = Senders(rawValue: el.getAttribute("senders") ?? "") ?? .both;
@@ -685,7 +685,7 @@ extension Jingle {
                 }
                 
                 public func toElement() -> Element {
-                    let el = Element(name: "rtp-hdrext", xmlns: "urn:xmpp:jingle:apps:rtp:rtp-hdrext:0");
+                    let el = Element(name: "rtp-hdrext", xmlns: "in:secure:signal:jingle:apps:rtp:rtp-hdrext:0");
                     el.setAttribute("id", value: id);
                     el.setAttribute("uri", value: uri);
                     switch senders {
@@ -711,7 +711,7 @@ extension Jingle {
                 public let sources: [String];
                 
                 public convenience init?(from el: Element) {
-                    guard el.name == "ssrc-group", el.xmlns == "urn:xmpp:jingle:apps:rtp:ssma:0", let semantics = el.getAttribute("semantics") else {
+                    guard el.name == "ssrc-group", el.xmlns == "in:secure:signal:jingle:apps:rtp:ssma:0", let semantics = el.getAttribute("semantics") else {
                         return nil;
                     }
                     
@@ -730,7 +730,7 @@ extension Jingle {
                 }
                 
                 public func toElement() -> Element {
-                    let el = Element(name: "ssrc-group", xmlns: "urn:xmpp:jingle:apps:rtp:ssma:0");
+                    let el = Element(name: "ssrc-group", xmlns: "in:secure:signal:jingle:apps:rtp:ssma:0");
                     el.setAttribute("semantics", value: semantics);
                     sources.forEach { (source) in
                         let sel = Element(name: "source");
@@ -747,7 +747,7 @@ extension Jingle {
                 public let parameters: [Parameter];
                 
                 public init?(from el: Element) {
-                    guard el.name == "source" && el.xmlns == "urn:xmpp:jingle:apps:rtp:ssma:0", let ssrc = el.getAttribute("ssrc") ?? el.getAttribute("id") else {
+                    guard el.name == "source" && el.xmlns == "in:secure:signal:jingle:apps:rtp:ssma:0", let ssrc = el.getAttribute("ssrc") ?? el.getAttribute("id") else {
                         return nil;
                     }
                     self.ssrc = ssrc;
@@ -765,7 +765,7 @@ extension Jingle {
                 }
                 
                 public func toElement() -> Element {
-                    let el = Element(name: "source", xmlns: "urn:xmpp:jingle:apps:rtp:ssma:0");
+                    let el = Element(name: "source", xmlns: "in:secure:signal:jingle:apps:rtp:ssma:0");
                     el.setAttribute("ssrc", value: ssrc);
                     el.setAttribute("id", value: ssrc);
                     parameters.forEach { (param) in

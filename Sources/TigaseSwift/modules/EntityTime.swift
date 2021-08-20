@@ -23,7 +23,7 @@ import Foundation
 
 open class EntityTimeModule: XmppModuleBase, AbstractIQModule {
 
-    public static let XMLNS = "urn:xmpp:time";
+    public static let XMLNS = "in:secure:signal:time";
     public static let ID = XMLNS;
     
     fileprivate static let stampFormatter = ({()-> DateFormatter in

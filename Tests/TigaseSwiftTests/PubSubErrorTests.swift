@@ -27,11 +27,11 @@ import XCTest
 class PubSubErrorTests: XCTestCase {
     
     func testConflict() {
-        let el = Element(name: "iq", attributes: ["type": "error", "xmlns": "jabber:client"]);
+        let el = Element(name: "iq", attributes: ["type": "error", "xmlns": "c5b9cdd82abcf6305f9c24fa5b7715e15dfe36fa810852494dad0297fd9dc866:client"]);
         let itemsEl = Element(name: "items", attributes: ["node": "test-node"]);
         itemsEl.addChild(Element(name: "item", attributes: ["id": "current"]));
         let pubsubEl = Element(name: "pubsub", xmlns: "http://jabber.org/protocol/pubsub", children: [itemsEl]);
-        let errorEl = Element(name: "error", children: [Element(name: "item-not-found", xmlns: "urn:ietf:params:xml:ns:xmpp-stanzas")]);
+        let errorEl = Element(name: "error", children: [Element(name: "item-not-found", xmlns: "in:secure:signal:xml:ns:xmpp-stanzas")]);
         errorEl.setAttribute("code", value: "409")
         errorEl.setAttribute("type", value: "cancel")
         el.addChildren([pubsubEl, errorEl]);

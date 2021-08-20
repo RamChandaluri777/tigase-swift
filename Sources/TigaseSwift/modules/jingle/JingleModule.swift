@@ -30,9 +30,9 @@ extension XmppModuleIdentifier {
 
 open class JingleModule: XmppModuleBase, XmppModule {
     
-    public static let XMLNS = "urn:xmpp:jingle:1";
+    public static let XMLNS = "in:secure:signal:jingle:1";
     
-    public static let MESSAGE_INITIATION_XMLNS = "urn:xmpp:jingle-message:0";
+    public static let MESSAGE_INITIATION_XMLNS = "in:secure:signal:jingle-message:0";
     
     public static let ID = XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<JingleModule>();
@@ -159,7 +159,7 @@ open class JingleModule: XmppModuleBase, XmppModule {
     }
         
     open func bundle(from jingle: Element) -> [String]? {
-        return jingle.findChild(name: "group", xmlns: "urn:xmpp:jingle:apps:grouping:0")?.mapChildren(transform: { (el) -> String? in
+        return jingle.findChild(name: "group", xmlns: "in:secure:signal:jingle:apps:grouping:0")?.mapChildren(transform: { (el) -> String? in
             return el.getAttribute("name");
         }, filter: { (el) -> Bool in
             return el.name == "content" && el.getAttribute("name") != nil;
@@ -242,7 +242,7 @@ open class JingleModule: XmppModuleBase, XmppModule {
         }
         
         if bundle != nil {
-            let group = Element(name: "group", xmlns: "urn:xmpp:jingle:apps:grouping:0");
+            let group = Element(name: "group", xmlns: "in:secure:signal:jingle:apps:grouping:0");
             group.setAttribute("semantics", value: "BUNDLE");
             bundle?.forEach({ (name) in
                 group.addChild(Element(name: "content", attributes: ["name": name]));
@@ -276,7 +276,7 @@ open class JingleModule: XmppModuleBase, XmppModule {
         }
         
         if bundle != nil {
-            let group = Element(name: "group", xmlns: "urn:xmpp:jingle:apps:grouping:0");
+            let group = Element(name: "group", xmlns: "in:secure:signal:jingle:apps:grouping:0");
             group.setAttribute("semantics", value: "BUNDLE");
             bundle?.forEach({ (name) in
                 group.addChild(Element(name: "content", attributes: ["name": name]));
@@ -344,7 +344,7 @@ open class JingleModule: XmppModuleBase, XmppModule {
             }
             
             if bundle != nil {
-                let group = Element(name: "group", xmlns: "urn:xmpp:jingle:apps:grouping:0");
+                let group = Element(name: "group", xmlns: "in:secure:signal:jingle:apps:grouping:0");
                 group.setAttribute("semantics", value: "BUNDLE");
                 bundle?.forEach({ (name) in
                     group.addChild(Element(name: "content", attributes: ["name": name]));

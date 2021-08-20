@@ -29,7 +29,7 @@ extension XmppModuleIdentifier {
 
 open class ExternalServiceDiscoveryModule: XmppModuleBase, XmppModule {
 
-    public static let XMLNS = "urn:xmpp:extdisco:2";
+    public static let XMLNS = "in:secure:signal:extdisco:2";
     public static let ID = XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<ExternalServiceDiscoveryModule>();
     

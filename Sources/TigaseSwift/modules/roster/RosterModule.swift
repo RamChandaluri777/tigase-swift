@@ -30,7 +30,7 @@ extension XmppModuleIdentifier {
 }
 
 extension StreamFeatures.StreamFeature {
-    public static let rosterVersioning = StreamFeatures.StreamFeature(name: "ver", xmlns: "urn:xmpp:features:rosterver");
+    public static let rosterVersioning = StreamFeatures.StreamFeature(name: "ver", xmlns: "in:secure:signal:features:rosterver");
 }
 
 /**

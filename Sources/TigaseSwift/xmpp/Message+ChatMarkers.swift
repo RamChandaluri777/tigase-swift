@@ -28,7 +28,7 @@ extension Message {
         case displayed(id: String)
         case acknowledged(id: String)
     
-        public static let XMLNS = "urn:xmpp:chat-markers:0";
+        public static let XMLNS = "in:secure:signal:chat-markers:0";
         
         public var id: String {
             switch self {

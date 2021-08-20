@@ -36,8 +36,8 @@ extension XmppModuleIdentifier {
 open class MessageArchiveManagementModule: XmppModuleBase, XmppModule, Resetable {
     
     // namespace used by XEP-0313
-    public static let MAM_XMLNS = "urn:xmpp:mam:1";
-    public static let MAM2_XMLNS = "urn:xmpp:mam:2";
+    public static let MAM_XMLNS = "in:secure:signal:mam:1";
+    public static let MAM2_XMLNS = "in:secure:signal:mam:2";
     // ID of a module for a lookup in `XmppModulesManager`
     public static let IDENTIFIER = XmppModuleIdentifier<MessageArchiveManagementModule>();
     public static let ID = "mam";
@@ -79,14 +79,14 @@ open class MessageArchiveManagementModule: XmppModuleBase, XmppModule, Resetable
             guard Version.isSupported(xmlns: result.xmlns) else {
                 return;
             }
-            guard let messageId = result.getAttribute("id"), let queryId = result.getAttribute("queryid"), let forwardedEl = result.findChild(name: "forwarded", xmlns: "urn:xmpp:forward:0"), let query = dispatcher.sync(execute: { return self.queries[queryId]; }) else {
+            guard let messageId = result.getAttribute("id"), let queryId = result.getAttribute("queryid"), let forwardedEl = result.findChild(name: "forwarded", xmlns: "in:secure:signal:forward:0"), let query = dispatcher.sync(execute: { return self.queries[queryId]; }) else {
                 return;
             }
             guard let message: Message = forwardedEl.mapChildren(transform: { (el) -> Message in
                 return Stanza.from(element: el) as! Message;
             }, filter: { (el)->Bool in
                 return el.name == "message";
-            }).first, let delayEl = forwardedEl.findChild(name: "delay", xmlns: "urn:xmpp:delay") else {
+            }).first, let delayEl = forwardedEl.findChild(name: "delay", xmlns: "in:secure:signal:delay") else {
                 return;
             }
             guard let timestamp = Delay(element: delayEl).stamp else {
@@ -427,8 +427,8 @@ open class MessageArchiveManagementModule: XmppModuleBase, XmppModule, Resetable
     }
     
     public enum Version: String {
-        case MAM1 = "urn:xmpp:mam:1"
-        case MAM2 = "urn:xmpp:mam:2"
+        case MAM1 = "in:secure:signal:mam:1"
+        case MAM2 = "in:secure:signal:mam:2"
         
         public static let values = [MAM2, MAM1];
         

@@ -29,7 +29,7 @@ extension XmppModuleIdentifier {
 
 open class PushNotificationsModule: XmppModuleBase, XmppModule {
     
-    public static let PUSH_NOTIFICATIONS_XMLNS = "urn:xmpp:push:0";
+    public static let PUSH_NOTIFICATIONS_XMLNS = "in:secure:signal:push:0";
     
     public static let ID = PUSH_NOTIFICATIONS_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<PushNotificationsModule>();

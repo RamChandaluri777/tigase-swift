@@ -35,9 +35,9 @@ extension XmppModuleIdentifier {
  */
 open class MessageCarbonsModule: XmppModuleBase, XmppModule {
     /// Namespace used by Message Carbons
-    public static let MC_XMLNS = "urn:xmpp:carbons:2";
+    public static let MC_XMLNS = "in:secure:signal:carbons:2";
     /// Namepsace used for forwarding messages
-    fileprivate static let SF_XMLNS = "urn:xmpp:forward:0";
+    fileprivate static let SF_XMLNS = "in:secure:signal:forward:0";
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = MC_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<MessageCarbonsModule>();

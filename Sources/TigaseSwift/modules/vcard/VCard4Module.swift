@@ -35,7 +35,7 @@ extension XmppModuleIdentifier {
 open class VCard4Module: XmppModuleBase, XmppModule, VCardModuleProtocol {
     
     /// Namespace used by vcard-temp feature
-    fileprivate static let VCARD_XMLNS = "urn:ietf:params:xml:ns:vcard-4.0";
+    fileprivate static let VCARD_XMLNS = "in:secure:signal:xml:ns:vcard-4.0";
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = VCARD_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<VCard4Module>();
@@ -115,7 +115,7 @@ open class VCard4Module: XmppModuleBase, XmppModule, VCardModuleProtocol {
 extension VCard {
     
     public convenience init?(vcard4: Element?) {
-        guard vcard4 != nil && vcard4!.name == "vcard" && vcard4!.xmlns == "urn:ietf:params:xml:ns:vcard-4.0" else {
+        guard vcard4 != nil && vcard4!.name == "vcard" && vcard4!.xmlns == "in:secure:signal:xml:ns:vcard-4.0" else {
             return nil;
         }
         self.init();
@@ -206,7 +206,7 @@ extension VCard {
     }
     
     open func toVCard4() -> Element {
-        let vcard = Element(name: "vcard", xmlns: "urn:ietf:params:xml:ns:vcard-4.0");
+        let vcard = Element(name: "vcard", xmlns: "in:secure:signal:xml:ns:vcard-4.0");
         
         if bday != nil {
             vcard.addChild(Element(name: "bday", children: [Element(name:"date", cdata: bday)]));

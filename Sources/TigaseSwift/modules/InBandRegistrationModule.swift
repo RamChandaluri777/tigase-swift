@@ -30,7 +30,7 @@ extension XmppModuleIdentifier {
 
 extension StreamFeatures.StreamFeature {
     public static let ibr = StreamFeatures.StreamFeature(name: "register", xmlns: "http://jabber.org/features/iq-register");
-    public static let ibrPreAuth = StreamFeatures.StreamFeature(name: "register", xmlns: "urn:xmpp:invite");
+    public static let ibrPreAuth = StreamFeatures.StreamFeature(name: "register", xmlns: "in:secure:signal:invite");
 }
 
 /**
@@ -446,7 +446,7 @@ open class InBandRegistrationModule: XmppModuleBase, AbstractIQModule {
                 iq.type = .set;
                 let domain: String = client.context.userBareJid.domain
                 iq.to = JID(domain);
-                iq.addChild(Element(name: "preauth", attributes: ["token": preauth, "xmlns": "urn:xmpp:pars:0"]));
+                iq.addChild(Element(name: "preauth", attributes: ["token": preauth, "xmlns": "in:secure:signal:pars:0"]));
                 client.context.writer.write(iq, completionHandler: { result in
                     switch result {
                     case .success(_):

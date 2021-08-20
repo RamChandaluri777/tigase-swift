@@ -39,7 +39,7 @@ extension StreamFeatures.StreamFeature {
 open class ClientStateIndicationModule: XmppModuleBase, XmppModule, Resetable {
     
     /// Client State Indication XMLNS
-    public static let CSI_XMLNS = "urn:xmpp:csi:0";
+    public static let CSI_XMLNS = "in:secure:signal:csi:0";
     /// ID of module to lookup for in `XmppModulesManager`
     public static let ID = CSI_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<ClientStateIndicationModule>();

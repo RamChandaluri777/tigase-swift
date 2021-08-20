@@ -27,7 +27,7 @@ class XMPPErrorTests: XCTestCase {
     
     func testForbidden() {
         let el = Element(name: "iq", attributes: ["type": "error"]);
-        el.addChildren([Element(name: "error", children: [Element(name: "forbidden", xmlns: "urn:ietf:params:xml:ns:xmpp-stanzas"), Element(name:"text", cdata: "Unique test error")])]);
+        el.addChildren([Element(name: "error", children: [Element(name: "forbidden", xmlns: "in:secure:signal:xml:ns:xmpp-stanzas"), Element(name:"text", cdata: "Unique test error")])]);
         let stanza = Stanza.from(element: el);
         let error = stanza.error;
         XCTAssertNotNil(error);
@@ -42,7 +42,7 @@ class XMPPErrorTests: XCTestCase {
 
     func testItemNotFound() {
         let el = Element(name: "iq", attributes: ["type": "error"]);
-        el.addChildren([Element(name: "error", children: [Element(name: "item-not-found", xmlns: "urn:ietf:params:xml:ns:xmpp-stanzas"), Element(name:"text", cdata: "Unique test error")])]);
+        el.addChildren([Element(name: "error", children: [Element(name: "item-not-found", xmlns: "in:secure:signal:xml:ns:xmpp-stanzas"), Element(name:"text", cdata: "Unique test error")])]);
         let stanza = Stanza.from(element: el);
         let error = stanza.error;
         XCTAssertNotNil(error);
@@ -58,7 +58,7 @@ class XMPPErrorTests: XCTestCase {
     
     func testWrongErrorXMLNS() {
         let el = Element(name: "iq", attributes: ["type": "error"]);
-        el.addChildren([Element(name: "error", xmlns: "wrong-xmlns", children: [Element(name: "forbidden", xmlns: "urn:ietf:params:xml:ns:xmpp-stanzas"), Element(name:"text", cdata: "Unique test error")])]);
+        el.addChildren([Element(name: "error", xmlns: "wrong-xmlns", children: [Element(name: "forbidden", xmlns: "in:secure:signal:xml:ns:xmpp-stanzas"), Element(name:"text", cdata: "Unique test error")])]);
         let stanza = Stanza.from(element: el);
         let error = stanza.error;
         XCTAssertNil(error);

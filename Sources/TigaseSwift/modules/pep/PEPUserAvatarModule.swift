@@ -33,7 +33,7 @@ open class PEPUserAvatarModule: AbstractPEPModule, XmppModule {
     public static let METADATA_XMLNS = ID + ":metadata";
     public static let DATA_XMLNS = ID + ":data";
     
-    public static let ID = "urn:xmpp:avatar";
+    public static let ID = "in:secure:signal:avatar";
     public static let IDENTIFIER = XmppModuleIdentifier<PEPUserAvatarModule>();
     
     public static let FEATURES_NOTIFY = [ METADATA_XMLNS + "+notify" ];

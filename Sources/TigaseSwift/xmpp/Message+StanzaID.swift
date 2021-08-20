@@ -25,23 +25,23 @@ extension Message {
     
     public var originId: String? {
         get {
-            return findChild(name: "origin-id", xmlns: "urn:xmpp:sid:0")?.getAttribute("id");
+            return findChild(name: "origin-id", xmlns: "in:secure:signal:sid:0")?.getAttribute("id");
         }
         set {
-            if let el = findChild(name: "origin-id", xmlns: "urn:xmpp:sid:0") {
+            if let el = findChild(name: "origin-id", xmlns: "in:secure:signal:sid:0") {
                 if let value = newValue {
                     el.setAttribute("id", value: value);
                 } else {
                     removeChild(el);
                 }
             } else if let value = newValue {
-                addChild(Element(name: "origin-id", attributes: ["xmlns": "urn:xmpp:sid:0", "id": value]));
+                addChild(Element(name: "origin-id", attributes: ["xmlns": "in:secure:signal:sid:0", "id": value]));
             }
         }
     }
     
     public var stanzaId: [BareJID:String]? {
-        return Dictionary(getChildren(name: "stanza-id", xmlns: "urn:xmpp:sid:0").map({ el -> (BareJID, String)? in
+        return Dictionary(getChildren(name: "stanza-id", xmlns: "in:secure:signal:sid:0").map({ el -> (BareJID, String)? in
             guard let jid = JID(el.getAttribute("by"))?.bareJid, let id = el.getAttribute("id") else {
                 return nil;
             }

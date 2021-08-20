@@ -30,20 +30,20 @@ extension XmppModuleIdentifier {
 
 open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotationAwareProtocol {
     func prepareRosterGetRequest(queryElem el: Element) {
-        el.addChild(Element(name: "annotate", xmlns: "urn:xmpp:mix:roster:0"));
+        el.addChild(Element(name: "annotate", xmlns: "in:secure:signal:mix:roster:0"));
     }
     
     func process(rosterItemElem el: Element) -> RosterItemAnnotation? {
-        guard let channelEl = el.findChild(name: "channel", xmlns: "urn:xmpp:mix:roster:0"), let id = channelEl.getAttribute("participant-id") else {
+        guard let channelEl = el.findChild(name: "channel", xmlns: "in:secure:signal:mix:roster:0"), let id = channelEl.getAttribute("participant-id") else {
             return nil;
         }
         return RosterItemAnnotation(type: "mix", values: ["participant-id": id]);
     }
     
-    public static let CORE_XMLNS = "urn:xmpp:mix:core:1";
+    public static let CORE_XMLNS = "in:secure:signal:mix:core:1";
     public static let IDENTIFIER = XmppModuleIdentifier<MixModule>();
     public static let ID = "mix";
-    public static let PAM2_XMLNS = "urn:xmpp:mix:pam:2";
+    public static let PAM2_XMLNS = "in:secure:signal:mix:pam:2";
     
     public let criteria: Criteria = Criteria.or(
         Criteria.name("message", types: [.groupchat], containsAttribute: "from").add(Criteria.name("mix", xmlns: MixModule.CORE_XMLNS)),
@@ -171,7 +171,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
         });
     }
     
-    open func join(channel channelJid: BareJID, withNick nick: String?, subscribeNodes nodes: [String] = ["urn:xmpp:mix:nodes:messages", "urn:xmpp:mix:nodes:participants", "urn:xmpp:mix:nodes:info", "urn:xmpp:avatar:metadata"], presenceSubscription: Bool = true, invitation: MixInvitation? = nil, messageSyncLimit: Int = 100, completionHandler: @escaping (Result<Iq,XMPPError>) -> Void) {
+    open func join(channel channelJid: BareJID, withNick nick: String?, subscribeNodes nodes: [String] = ["in:secure:signal:mix:nodes:messages", "in:secure:signal:mix:nodes:participants", "in:secure:signal:mix:nodes:info", "in:secure:signal:avatar:metadata"], presenceSubscription: Bool = true, invitation: MixInvitation? = nil, messageSyncLimit: Int = 100, completionHandler: @escaping (Result<Iq,XMPPError>) -> Void) {
         guard let context = self.context else {
             completionHandler(.failure(.remote_server_timeout));
             return;
@@ -335,19 +335,19 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
             case .success(let affiliations):
                 let values = Dictionary(affiliations.map({ ($0.node, $0.affiliation) }), uniquingKeysWith: { (first, _) in first });
                 var permissions: Set<ChannelPermission> = [];
-                switch values["urn:xmpp:mix:nodes:info"] ?? .none {
+                switch values["in:secure:signal:mix:nodes:info"] ?? .none {
                 case .owner, .publisher:
                     permissions.insert(.changeInfo);
                 default:
                     break;
                 }
-                switch values["urn:xmpp:mix:nodes:config"] ?? .none {
+                switch values["in:secure:signal:mix:nodes:config"] ?? .none {
                 case .owner, .publisher:
                     permissions.insert((.changeConfig));
                 default:
                     break;
                 }
-                switch values["urn:xmpp:avatar:metadata"] ?? .none {
+                switch values["in:secure:signal:avatar:metadata"] ?? .none {
                 case .owner, .publisher:
                     permissions.insert((.changeAvatar));
                 default:
@@ -364,7 +364,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
     }
     
     open func retrieveParticipants(for channel: ChannelProtocol, completionHandler: ((ParticipantsResult)->Void)?) {
-        pubsubModule.retrieveItems(from: channel.jid, for: "urn:xmpp:mix:nodes:participants", completionHandler: { result in
+        pubsubModule.retrieveItems(from: channel.jid, for: "in:secure:signal:mix:nodes:participants", completionHandler: { result in
             switch result {
             case .success(let items):
                 let participants = items.items.map({ (item) -> MixParticipant? in
@@ -395,7 +395,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
     }
     
     open func publishInfo(for channelJid: BareJID, info: ChannelInfo, completionHandler: ((Result<Void,XMPPError>)->Void)?) {
-        pubsubModule.publishItem(at: channelJid, to: "urn:xmpp:mix:nodes:info", payload: info.form().submitableElement(type: .result), completionHandler: { response in
+        pubsubModule.publishItem(at: channelJid, to: "in:secure:signal:mix:nodes:info", payload: info.form().submitableElement(type: .result), completionHandler: { response in
             switch response {
             case .success(_):
                 completionHandler?(.success(Void()));
@@ -406,7 +406,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
     }
     
     open func retrieveInfo(for channelJid: BareJID, completionHandler: ((Result<ChannelInfo,XMPPError>)->Void)?) {
-        pubsubModule.retrieveItems(from: channelJid, for: "urn:xmpp:mix:nodes:info", completionHandler: { result in
+        pubsubModule.retrieveItems(from: channelJid, for: "in:secure:signal:mix:nodes:info", completionHandler: { result in
             switch result {
             case .success(let items):
                 guard let item = items.items.sorted(by: { (i1, i2) in return i1.id > i2.id }).first else {
@@ -428,7 +428,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
     }
 
     open func retrieveConfig(for channelJid: BareJID, completionHandler: @escaping (Result<JabberDataElement,XMPPError>)->Void) {
-        pubsubModule.retrieveItems(from: channelJid, for: "urn:xmpp:mix:nodes:config", limit: .lastItems(1), completionHandler: { result in
+        pubsubModule.retrieveItems(from: channelJid, for: "in:secure:signal:mix:nodes:config", limit: .lastItems(1), completionHandler: { result in
             switch result {
             case .success(let items):
                 guard let item = items.items.first else {
@@ -447,7 +447,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
     }
     
     open func updateConfig(for channelJid: BareJID, config: JabberDataElement, completionHandler: @escaping (Result<Void,XMPPError>)->Void) {
-        pubsubModule.publishItem(at: channelJid, to: "urn:xmpp:mix:nodes:config", payload: config.submitableElement(type: .submit), completionHandler: { response in
+        pubsubModule.publishItem(at: channelJid, to: "in:secure:signal:mix:nodes:config", payload: config.submitableElement(type: .submit), completionHandler: { response in
             switch response {
             case .success(_):
                 completionHandler(.success(Void()));
@@ -582,9 +582,9 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
         var node: String {
             switch self {
             case .allow:
-                return "urn:xmpp:mix:nodes:allowed";
+                return "in:secure:signal:mix:nodes:allowed";
             case .deny:
-                return "urn:xmpp:mix:nodes:banned";
+                return "in:secure:signal:mix:nodes:banned";
             }
         }
     }
@@ -657,7 +657,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
         }
         
         switch notification.node {
-        case "urn:xmpp:mix:nodes:participants":
+        case "in:secure:signal:mix:nodes:participants":
             switch notification.action {
             case .published(let item):
                 if let participant = MixParticipant(from: item, for: channel) {
@@ -678,7 +678,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
                     self.fire(ParticipantsChangedEvent(context: context, channel: channel, left: [participant]));
                 }
             }
-        case "urn:xmpp:mix:nodes:info":
+        case "in:secure:signal:mix:nodes:info":
             switch notification.action {
             case .published(let item):
                 guard let info = ChannelInfo(form: JabberDataElement(from: item.payload)) else {
@@ -732,7 +732,7 @@ open class MixModule: XmppModuleBaseSessionStateAware, XmppModule, RosterAnnotat
     open func retrieveHistory(fromChannel jid: BareJID, start: Date?, rsm: RSM.Query) {
         let queryId = UUID().uuidString;
         // should we query MIX messages node? or just MAM at MIX channel without a node?
-        mamModule.queryItems(version: .MAM2, componentJid: JID(jid), node: "urn:xmpp:mix:nodes:messages", start: nil, queryId: queryId, rsm: rsm, completionHandler: { result in
+        mamModule.queryItems(version: .MAM2, componentJid: JID(jid), node: "in:secure:signal:mix:nodes:messages", start: nil, queryId: queryId, rsm: rsm, completionHandler: { result in
             switch result {
             case .success(let queryResult):
                 guard !queryResult.complete, let rsmQuery = queryResult.rsm?.next() else {
@@ -874,7 +874,7 @@ open class MixInvitation {
     public let token: String?;
     
     public convenience init?(from el: Element?) {
-        guard el?.name == "invitation" && el?.xmlns == "urn:xmpp:mix:misc:0" else {
+        guard el?.name == "invitation" && el?.xmlns == "in:secure:signal:mix:misc:0" else {
             return nil;
         }
         guard let inviter = BareJID(el?.findChild(name: "inviter")?.value), let invitee = BareJID(el?.findChild(name: "invitee")?.value), let channel = BareJID(el?.findChild(name: "channel")?.value) else {
@@ -891,7 +891,7 @@ open class MixInvitation {
     }
     
     open func element() -> Element {
-        return Element(name: "invitation", xmlns: "urn:xmpp:mix:misc:0", children: [
+        return Element(name: "invitation", xmlns: "in:secure:signal:mix:misc:0", children: [
             Element(name: "inviter", cdata: inviter.stringValue),
             Element(name: "invitee", cdata: invitee.stringValue),
             Element(name: "channel", cdata: channel.stringValue),
@@ -903,10 +903,10 @@ open class MixInvitation {
 extension Message {
     open var mixInvitation: MixInvitation? {
         get {
-            return MixInvitation(from: findChild(name: "invitation", xmlns: "urn:xmpp:mix:misc:0"));
+            return MixInvitation(from: findChild(name: "invitation", xmlns: "in:secure:signal:mix:misc:0"));
         }
         set {
-            element.removeChildren(where: { $0.name == "invitation" && $0.xmlns == "urn:xmpp:mix:misc:0"});
+            element.removeChildren(where: { $0.name == "invitation" && $0.xmlns == "in:secure:signal:mix:misc:0"});
             if let value = newValue {
                 element.addChild(value.element());
             }
