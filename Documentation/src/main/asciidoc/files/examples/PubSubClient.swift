@@ -101,7 +101,7 @@ class PubSubClient: EventHandler {
     func publishItem() {
         let pubsubModule: PubSubModule = client.modulesManager.getModule(PubSubModule.ID)!;
 
-        let payload = Element(name: "payload", cdata: "Sample item");
+        let payload = Element(name: "message-body", cdata: "Sample item");
 
         pubsubModule.publishItem(at: pubsubJid, to: nodeName, payload: payload, onSuccess: { (stanza,node,id) in
             print("published item with id", id, "on node", node, "at", self.pubsubJid);

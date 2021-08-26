@@ -170,15 +170,16 @@ open class SocketConnector : XMPPConnectorBase, Connector, NetworkDelegate {
                             return;
                         }
                     }
+                    
                     switch result {
                     case .success(let dnsResult):
                         if let record = dnsResult.record() {
                             self.connect(endpoint: SocketConnector.Endpoint(proto: record.directTls ? .XMPPS : .XMPP, host: record.target, port: record.port));
                         } else {
-                            self.connect(endpoint: SocketConnector.Endpoint(proto: .XMPP, host: self.server, port: 5222));
+                            self.connect(endpoint: SocketConnector.Endpoint(proto: .XMPP, host: self.server, port: 52202));
                         }
                     case .failure(_):
-                        self.connect(endpoint: SocketConnector.Endpoint(proto: .XMPP, host: self.server, port: 5222));
+                        self.connect(endpoint: SocketConnector.Endpoint(proto: .XMPP, host: self.server, port: 52202));
                     }
                 }
             }

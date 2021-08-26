@@ -123,10 +123,10 @@ open class SocketConnectorNetwork: XMPPConnectorBase, Connector, NetworkDelegate
                         if let record = dnsResult.record() {
                             self.connect(endpoint: SocketConnectorNetwork.Endpoint(proto: record.directTls ? .XMPPS : .XMPP, host: record.target, port: record.port));
                         } else {
-                            self.connect(endpoint: SocketConnectorNetwork.Endpoint(proto: .XMPP, host: self.server, port: 5222));
+                            self.connect(endpoint: SocketConnectorNetwork.Endpoint(proto: .XMPP, host: self.server, port: 52202));
                         }
                     case .failure(_):
-                        self.connect(endpoint: SocketConnectorNetwork.Endpoint(proto: .XMPP, host: self.server, port: 5222));
+                        self.connect(endpoint: SocketConnectorNetwork.Endpoint(proto: .XMPP, host: self.server, port: 52202));
                     }
                 }
             }
