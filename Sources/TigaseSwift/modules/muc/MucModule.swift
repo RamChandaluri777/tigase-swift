@@ -146,6 +146,8 @@ open class MucModule: XmppModuleBase, XmppModule, Resetable {
         
         let query = Element(name: "query", xmlns: "http://jabber.org/protocol/muc#owner");
         iq.addChild(query);
+       // <x xmlns='jabber:x:data' type='submit'/>
+        //configuration.submitableElement(type: .submit)
         query.addChild(configuration.submitableElement(type: .submit));
         
         write(iq, completionHandler: { result in
@@ -255,6 +257,7 @@ open class MucModule: XmppModuleBase, XmppModule, Resetable {
             }
             
             if let result = self.roomManager.createRoom(for: context, with: roomJid, nickname: nickname, password: password) {
+               
                 self.join(room: result, fetchHistory: .initial).handle(promise);
             } else {
                 promise(.failure(.undefined_condition));

@@ -171,7 +171,7 @@ public enum XMPPError: Error, Equatable, CustomStringConvertible {
         let errorEl = Element(name: "error");
         errorEl.setAttribute("type", value: errorCondition.type);
         
-        let conditon = Element(name: errorCondition.rawValue, xmlns: "in:secure:signal:xml:ns:xmpp-stanzas");
+        let conditon = Element(name: errorCondition.rawValue, xmlns: "in:secure:vaditi:xml:ns:xmpp-stanzas");
         if case let .redirect(uri, _) = self {
             conditon.value = uri;
         }
@@ -199,7 +199,7 @@ public enum XMPPError: Error, Equatable, CustomStringConvertible {
             return nil;
         }
         
-        guard let errorNameEl = errorEl.findChild(xmlns:"in:secure:signal:xml:ns:xmpp-stanzas"), let errorCondition = ErrorCondition(rawValue: errorNameEl.name) else {
+        guard let errorNameEl = errorEl.findChild(xmlns:"in:secure:vaditi:xml:ns:xmpp-stanzas"), let errorCondition = ErrorCondition(rawValue: errorNameEl.name) else {
             return .undefined_condition;
         }
         

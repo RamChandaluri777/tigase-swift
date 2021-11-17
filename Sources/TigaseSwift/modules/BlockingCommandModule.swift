@@ -30,7 +30,7 @@ extension XmppModuleIdentifier {
 
 open class BlockingCommandModule: XmppModuleBase, XmppModule, Resetable {
     
-    public static let BC_XMLNS = "in:secure:signal:blocking";
+    public static let BC_XMLNS = "in:secure:vaditi:blocking";
     /// ID of module to lookup for in `XmppModulesManager`
     public static let ID = BC_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<BlockingCommandModule>();

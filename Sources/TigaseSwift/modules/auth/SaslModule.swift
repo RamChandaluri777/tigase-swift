@@ -36,7 +36,7 @@ extension XmppModuleIdentifier {
  */
 open class SaslModule: XmppModuleBase, XmppModule, Resetable {
     /// Namespace used SASL negotiation and authentication
-    static let SASL_XMLNS = "in:secure:signal:xml:ns:xmpp-sasl";
+    static let SASL_XMLNS = "in:secure:vaditi:xml:ns:xmpp-sasl";
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = SASL_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<SaslModule>();

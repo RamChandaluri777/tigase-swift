@@ -25,20 +25,20 @@ extension Message {
     
     open var messageRetractionId: String? {
         get {
-            guard let el = self.element.findChild(name: "apply-to", xmlns: "in:secure:signal:fasten:0"), let id = el.getAttribute("id") else {
+            guard let el = self.element.findChild(name: "apply-to", xmlns: "in:secure:vaditi:fasten:0"), let id = el.getAttribute("id") else {
                 return nil;
             }
-            guard el.findChild(name: "retract", xmlns: "in:secure:signal:message-retract:0") != nil else {
+            guard el.findChild(name: "retract", xmlns: "in:secure:vaditi:message-retract:0") != nil else {
                 return nil;
             }
             return id;
         }
         set {
-            self.element.removeChildren(name: "apply-to", xmlns: "in:secure:signal:fasten:0");
+            self.element.removeChildren(name: "apply-to", xmlns: "in:secure:vaditi:fasten:0");
             if let val = newValue {
-                let applyTo = Element(name: "apply-to", xmlns: "in:secure:signal:fasten:0");
+                let applyTo = Element(name: "apply-to", xmlns: "in:secure:vaditi:fasten:0");
                 applyTo.setAttribute("id", value: val);
-                applyTo.addChild(Element(name: "retract", xmlns: "in:secure:signal:message-retract:0"));
+                applyTo.addChild(Element(name: "retract", xmlns: "in:secure:vaditi:message-retract:0"));
                 self.element.addChild(applyTo);
             }
         }
@@ -48,7 +48,7 @@ extension Message {
 
 extension CapabilitiesModule.AdditionalFeatures {
     
-    public static let messageRetraction = CapabilitiesModule.AdditionalFeatures(rawValue: "in:secure:signal:message-retract:0");
+    public static let messageRetraction = CapabilitiesModule.AdditionalFeatures(rawValue: "in:secure:vaditi:message-retract:0");
     
 }
 

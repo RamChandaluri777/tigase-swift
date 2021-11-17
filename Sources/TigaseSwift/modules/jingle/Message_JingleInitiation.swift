@@ -25,15 +25,15 @@ extension Message {
     
     public var jingleMessageInitiationAction: Jingle.MessageInitiationAction? {
         get {
-            guard let actionEl = element.findChild(xmlns: "in:secure:signal:jingle-message:0") else {
+            guard let actionEl = element.findChild(xmlns: "in:secure:vaditi:jingle-message:0") else {
                 return nil;
             }
             return Jingle.MessageInitiationAction.from(element: actionEl);
         }
         set {
-            element.removeChildren(where: { $0.xmlns == "in:secure:signal:jingle-message:0" });
+            element.removeChildren(where: { $0.xmlns == "in:secure:vaditi:jingle-message:0" });
             if let value = newValue {
-                let actionEl = Element(name: value.actionName, xmlns: "in:secure:signal:jingle-message:0");
+                let actionEl = Element(name: value.actionName, xmlns: "in:secure:vaditi:jingle-message:0");
                 actionEl.setAttribute("id", value: value.id);
                 switch value {
                 case .propose(_, let descriptions):

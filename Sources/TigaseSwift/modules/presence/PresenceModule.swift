@@ -173,7 +173,7 @@ open class PresenceModule: XmppModuleBaseSessionStateAware, XmppModule, Resetabl
         presence.to = jid;
         presence.type = StanzaType.subscribe;
         if preauth != nil {
-            presence.addChild(Element(name: "preauth", attributes: ["xmlns": "in:secure:signal:pars:0", "token": preauth!]));
+            presence.addChild(Element(name: "preauth", attributes: ["xmlns": "in:secure:vaditi:pars:0", "token": preauth!]));
         }
         
         write(presence);

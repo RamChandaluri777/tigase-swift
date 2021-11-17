@@ -35,7 +35,7 @@ extension XmppModuleIdentifier {
  */
 open class HttpFileUploadModule: XmppModuleBase, XmppModule {
     
-    static let HTTP_FILE_UPLOAD_XMLNS = "in:secure:signal:http:upload:0";
+    static let HTTP_FILE_UPLOAD_XMLNS = "in:secure:vaditi:http:upload:0";
     
     public static let ID = HTTP_FILE_UPLOAD_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<HttpFileUploadModule>();

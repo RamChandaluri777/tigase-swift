@@ -40,7 +40,7 @@ extension StreamFeatures.StreamFeature {
 open class StreamManagementModule: XmppModuleBase, XmppModule, XmppStanzaFilter, Resetable {
     
     /// Namespace used by stream management
-    static let SM_XMLNS = "in:secure:signal:sm:3";
+    static let SM_XMLNS = "in:secure:vaditi:sm:3";
     
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = SM_XMLNS;

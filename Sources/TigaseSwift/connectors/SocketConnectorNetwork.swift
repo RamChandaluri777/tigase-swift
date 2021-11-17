@@ -82,7 +82,7 @@ open class SocketConnectorNetwork: XMPPConnectorBase, Connector, NetworkDelegate
     public func activate(feature: ConnectorFeature) {
         switch feature {
         case .TLS:
-            self.serialize(.stanza(Stanza(elem: Element(name: "startenc", xmlns: "in:secure:signal:xml:ns:xmpp-tls"))), completion: .none);
+            self.serialize(.stanza(Stanza(elem: Element(name: "startsai", xmlns: "in:secure:vaditi:xml:ns:xmpp-tls"))), completion: .none);
         case .ZLIB:
             self.serialize(.stanza(Stanza(elem: Element(name: "compress", xmlns: "http://jabber.org/protocol/compress", children: [Element(name: "method", cdata: "zlib")]))), completion: .none);
         default:
@@ -303,7 +303,7 @@ open class SocketConnectorNetwork: XMPPConnectorBase, Connector, NetworkDelegate
         case .stanza(let packet):
             if packet.name == "error" && packet.xmlns == "http://etherx.jabber.org/streams" {
                 state = .disconnected(.streamError(packet.element));
-            } else if packet.name == "proceed" && packet.xmlns == "in:secure:signal:xml:ns:xmpp-tls" {
+            } else if packet.name == "proceed" && packet.xmlns == "in:secure:vaditi:xml:ns:xmpp-tls" {
                 proceedTLS();
             } else if packet.name == "compressed" && packet.xmlns == "http://jabber.org/protocol/compress" {
                 proceedZlib();
@@ -339,7 +339,8 @@ open class SocketConnectorNetwork: XMPPConnectorBase, Connector, NetworkDelegate
             self.sendSync("<stream:stream/>", completion: completion);
         case .streamOpen(let attributes):
             let attributesString = attributes.map({ "\($0.key)='\($0.value)' "}).joined();
-            let openString = "<stream:stream \(attributesString) version='1.0' xmlns='c5b9cdd82abcf6305f9c24fa5b7715e15dfe36fa810852494dad0297fd9dc866:client' xmlns:stream='http://etherx.jabber.org/streams'>";
+            let openString = "<stream:stream \(attributesString) version='1.0' xmlns='6f8c84c301b9a292a8d3b11bbea0e7df05429e27b3053602f2b1c4cd5da4f9e0:client' xmlns:stream='http://etherx.jabber.org/streams'>";
+            //c5b9cdd82abcf6305f9c24fa5b7715e15dfe36fa810852494dad0297fd9dc866:client
             self.sendSync(openString, completion: completion);
         default:
             break;

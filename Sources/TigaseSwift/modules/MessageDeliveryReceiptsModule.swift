@@ -31,7 +31,7 @@ extension XmppModuleIdentifier {
 open class MessageDeliveryReceiptsModule: XmppModuleBase, XmppModule {
     
     /// Namespace used by Message Carbons
-    public static let XMLNS = "in:secure:signal:receipts";
+    public static let XMLNS = "in:secure:vaditi:receipts";
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<MessageDeliveryReceiptsModule>();

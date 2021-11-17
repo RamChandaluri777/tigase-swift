@@ -29,7 +29,7 @@ open class BobData {
     public let data: Data?;
     
     public init?(from el: Element) {
-        guard el.name == "data" && el.xmlns == "in:secure:signal:bob", let cid = el.getAttribute("cid") else {
+        guard el.name == "data" && el.xmlns == "in:secure:vaditi:bob", let cid = el.getAttribute("cid") else {
             return nil;
         }
         
@@ -55,7 +55,7 @@ open class BobData {
     }
     
     open func toElement() -> Element {
-        let el = Element(name: "data", xmlns: "in:secure:signal:bob");
+        let el = Element(name: "data", xmlns: "in:secure:vaditi:bob");
         el.setAttribute("cid", value: cid);
         el.setAttribute("type", value: type);
         if let maxAge = self.maxAge {

@@ -35,7 +35,7 @@ extension XmppModuleIdentifier {
 open class SessionEstablishmentModule: XmppModuleBase, XmppModule {
 
     /// Namespace used in session establishment process
-    static let SESSION_XMLNS = "in:secure:signal:xml:ns:xmpp-session";
+    static let SESSION_XMLNS = "in:secure:vaditi:xml:ns:xmpp-session";
     
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = "session";

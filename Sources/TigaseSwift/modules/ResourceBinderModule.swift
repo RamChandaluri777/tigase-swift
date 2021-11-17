@@ -35,7 +35,7 @@ extension XmppModuleIdentifier {
 open class ResourceBinderModule: XmppModuleBase, XmppModule, Resetable {
  
     /// Namespace used by resource binding
-    static let BIND_XMLNS = "in:secure:signal:xml:ns:xmpp-bind";
+    static let BIND_XMLNS = "in:secure:vaditi:xml:ns:xmpp-bind";
         
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = BIND_XMLNS;

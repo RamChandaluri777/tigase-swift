@@ -34,7 +34,7 @@ extension XmppModuleIdentifier {
  */
 open class PingModule: XmppModuleBase, AbstractIQModule {
     /// Namespace used by XMPP ping
-    fileprivate static let PING_XMLNS = "in:secure:signal:ping";
+    fileprivate static let PING_XMLNS = "in:secure:vaditi:ping";
     /// ID of module for lookup in `XmppModulesManager`
     public static let ID = PING_XMLNS;
     public static let IDENTIFIER = XmppModuleIdentifier<PingModule>();
